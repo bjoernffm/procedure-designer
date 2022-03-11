@@ -1,0 +1,21 @@
+<div *ngIf="leg">
+    {{ leg.seqno }}
+    <span *ngIf="leg.path_termination=='IF'">
+        Initial fix <span *ngIf="leg.waypoint">{{ leg.waypoint.identifier }}</span>
+    </span>
+    <span *ngIf="leg.path_termination=='CA'">
+        Course {{leg.magnetic_course}}° to altitude <span *ngIf="leg.altitude_restriction">{{leg.altitude_restriction.type}}{{leg.altitude_restriction.altitude_1}}</span> 
+    </span>
+    <span *ngIf="leg.path_termination=='CF'">
+        Course {{leg.magnetic_course}}° to fix <span *ngIf="leg.waypoint">{{ leg.waypoint.identifier }}</span>
+    </span>
+    <span *ngIf="leg.path_termination=='FD'">
+        Track {{leg.magnetic_course}}° from Fix <span *ngIf="leg.waypoint">{{ leg.waypoint.identifier }}</span> to DME {{ leg.route_distance_holding_distance_time }}
+    </span>
+    <span *ngIf="leg.path_termination=='DF'">
+        Direct to fix <span *ngIf="leg.waypoint">{{ leg.waypoint.identifier }}</span>
+    </span>
+    <span *ngIf="leg.path_termination=='TF'">
+        Track to fix <span *ngIf="leg.waypoint">{{ leg.waypoint.identifier }}</span>
+    </span>
+</div>

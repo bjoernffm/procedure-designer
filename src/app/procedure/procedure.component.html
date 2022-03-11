@@ -1,0 +1,7 @@
+<div *ngIf="procedure">
+    <h2>{{ procedure.procedure_identifier}}
+    {{ procedure.transition_identifier}}
+    {{ procedure.route_type}}
+    {{ procedure.type}}</h2>
+    <app-leg *ngFor="let leg of procedure.legs" [leg]="leg"></app-leg>
+</div>
