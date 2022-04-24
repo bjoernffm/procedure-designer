@@ -1,7 +1,9 @@
 <div *ngIf="procedure">
-    <h2>{{ procedure.procedure_identifier}}
+    <h2 class="mt-4">{{ procedure.procedure_identifier}}
     {{ procedure.transition_identifier}}
     {{ procedure.route_type}}
     {{ procedure.type}}</h2>
-    <app-leg *ngFor="let leg of procedure.legs" [leg]="leg"></app-leg>
+    <ul class="list-group">
+        <app-leg class="list-group-item list-group-item-action" style="cursor: pointer;" *ngFor="let leg of procedure.legs" [leg]="leg" (click)="clickLeg(leg)"></app-leg>
+    </ul>
 </div>

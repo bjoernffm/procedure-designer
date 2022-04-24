@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Leg } from 'src/serializer';
+import { Leg } from 'src/app/state/procedures.model';
 
 @Component({
   selector: 'app-leg',

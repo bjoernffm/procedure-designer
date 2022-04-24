@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Procedure, Serializer } from 'src/serializer';
+import { Component, OnInit } from '@angular/core';
+import { Procedure } from 'src/app/state/procedures.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { LegEditorState } from './state/legEditor.reducer';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +11,21 @@ import { Procedure, Serializer } from 'src/serializer';
 })
 export class AppComponent {
   title = 'my-app';
-  favoriteColorControl = new FormControl("SID:010,5,DOME2C,RW25, , , , ,    , ,   ,CA, , , , , ,      ,    ,    ,2500,    ,+,00600,     ,05000, ,   ,    ,   ,EDDG,ED,P,A, , , , ;\nSID:020,5,DOME2C,RW25,DG021,ED,P,C,E   , ,   ,DF, , , , , ,      ,    ,    ,    ,    , ,     ,     ,     , ,   ,    ,   , , , , , , , , ;\nSID:030,5,DOME2C,RW25,DOMEG,ED,E,A,EE  , ,   ,TF, , , , , ,      ,    ,    ,    ,    , ,     ,     ,     , ,   ,    ,   , , , , , , , , ;");
 
-  procedures: Procedure[] = [];
+  procedures: Observable<Procedure[]>;
+  legEditor: Observable<LegEditorState>;
+  
+  names: string[] = ["Kai", "Björn"];
 
-  parse() {
-    console.log(this.favoriteColorControl.value);
-    this.procedures = Serializer.deserialize(this.favoriteColorControl.value);
-    console.log(this.procedures);
+  constructor(private store: Store<{ procedures: Procedure[], legEditor: LegEditorState }>) {
+    this.procedures = store.select('procedures');
+    this.legEditor = store.select('legEditor');
+  }
+
+  ngOnInit(): void {
+    /*fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => console.log(json))*/
+      //.then(json => json.map((item) => item.title))
   }
 }

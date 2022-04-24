@@ -1,221 +1,264 @@
-<form class="row g-3">
-    <div class="col-6">
-        <label for="exampleFormControlInput1" class="form-label">Waypoint identifier</label>
-        <input type="text" class="form-control form-control-sm">
-    </div>
-    <div class="col-6"><label for="exampleFormControlInput1" class="form-label">Path termination</label><select
-            class="form-control form-control-sm">
-            <option value="IF">Initial Fix</option>
-            <option value="TF">Track to Fix</option>
-            <option value="CF">Course to Fix</option>
-            <option value="DF">Direct to Fix</option>
-            <option value="FA">Fix to Altitude</option>
-            <option value="FC">Track from Fix for a Distance</option>
-            <option value="FD">Track from Fix to DME Distance</option>
-            <option value="FM">From Fix to Manual termination</option>
-            <option value="CA">Course to Altitude</option>
-            <option value="CD">Course to DME Distance</option>
-            <option value="CI">Course to Intercept</option>
-            <option value="CR">Course to Radial termination</option>
-            <option value="RF">Constant Radius Arc</option>
-            <option value="AF">Arc to Fix</option>
-            <option value="VA">Heading to Altitude</option>
-            <option value="VD">Heading to DME Distance termination</option>
-            <option value="VI">Heading to Intercept</option>
-            <option value="VM">Heading to Manual termination</option>
-            <option value="VR">Heading to Radial termination</option>
-            <option value="PI">045/180 Procedure turn</option>
-            <option value="HA">Holding in lieu of Procedure Turn</option>
-            <option value="HF">Holding in lieu of Procedure Turn</option>
-            <option value="HM">Holding in lieu of Procedure Turn</option>
-        </select>
-    </div>
-    <div class="col-3"><select class="form-control form-control-sm">
-            <option value=" "></option>
-            <option value="A">Airport as Waypoint</option>
-            <option value="E">Essential Waypoint</option>
-            <option value="F">Off Airway Waypoint</option>
-            <option value="G">Runway as Waypoint</option>
-            <option value="H">Heliport as Waypoint</option>
-            <option value="N">NDB navaid as Waypoint</option>
-            <option value="P">Phantom Waypoint</option>
-            <option value="R">Non-Essential Waypoint</option>
-            <option value="T">Transition Essential Waypoint</option>
-            <option value="V">VHF Navaid as Waypoint</option>
-        </select>
-    </div>
-    <div class="col-3">
-        <select class="form-control form-control-sm">
-            <option value=" "></option>
-            <option value="B">end of SID/STAR/IAP route Type</option>
-            <option value="E">end of enroute Airway or terminal procedure</option>
-            <option value="U">uncharted airway intersection</option>
-            <option value="Y">Fly-Over Waypoint</option>
-        </select>
-    </div>
-    <div class="col-3">
-        <select class="form-control form-control-sm">
-            <option value=" "></option>
-            <option value="A">unnamed Stepdown Fix After final Approach Fix</option>
-            <option value="B">unnamed Stepdown Fix before Final Approach Fix</option>
-            <option value="C">ATC Compulsory Waypoint</option>
-            <option value="G">Oceanic Gateway Waypoint</option>
-            <option value="M">First leg of Missed Approach Procedure</option>
-            <option value="P">Path Point Fix</option>
-            <option value="S">Named Stepdown Fix</option>
-        </select>
-    </div>
-    <div class="col-3">
-        <select class="form-control form-control-sm">
-            <option value=" "></option>
-            <option value="A">Initial Approach Fix</option>
-            <option value="B">Intermediate Approach Fix</option>
-            <option value="C">Initial Approach Fix with Holding</option>
-            <option value="D">Initial Approach with Final Approach Course Fix</option>
-            <option value="E">Final End Point Fix</option>
-            <option value="F">Published Final Approach Fix or Database Final Approach Fix</option>
-            <option value="H">Holding Fix</option>
-            <option value="I">Final Approach Course Fix</option>
-            <option value="M">Published Missed Approach Point Fix</option>
-        </select>
-    </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Turn Direction">Turn dir.</abbr>
-        </label>
-        <select class="form-control form-control-sm">
-            <option value=""></option>
-            <option value="L">Left</option>
-            <option value="R">Right</option>
-        </select>
-    </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Turn Direction Valid">TDV</abbr>
-        </label>
-        <select class="form-control form-control-sm">
-            <option value=""></option>
-            <option value="Y">yes</option>
-        </select>
-    </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Required navigation performance">RNP</abbr>
-        </label>
-        <input type="text" class="form-control form-control-sm">
-    </div>
-    <div class="col-3">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Recommended Fix/Navaid">Fix</abbr>
-        </label>
-        <input type="text" class="form-control form-control-sm">
-    </div>
-    <div class="col-3">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Center Waypoint">Center Wpt</abbr>
-        </label>
-        <input type="text" class="form-control form-control-sm">
-    </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Magnetic Course from Recommended Fix/Navaid to Waypoint Identifier">Theta</abbr>
-        </label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">°</span>
+<form class="g-3" *ngIf="state && state.selectedLeg !== null">
+    <div class="row">
+        <div class="col-6">
+            <label for="exampleFormControlInput1" class="form-label">Waypoint identifier</label>
+            <input [ngModel]="state.selectedLeg.waypoint.identifier" name="waypoint_identifier" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="col-6">
+            <label for="path_termination" class="form-label">Path termination</label>
+            <select [ngModel]="state.selectedLeg.path_termination" name="path_termination" class="form-control form-control-sm">
+                <option value="IF">Initial Fix</option>
+                <option value="TF">Track to Fix</option>
+                <option value="CF">Course to Fix</option>
+                <option value="DF">Direct to Fix</option>
+                <option value="FA">Fix to Altitude</option>
+                <option value="FC">Track from Fix for a Distance</option>
+                <option value="FD">Track from Fix to DME Distance</option>
+                <option value="FM">From Fix to Manual termination</option>
+                <option value="CA">Course to Altitude</option>
+                <option value="CD">Course to DME Distance</option>
+                <option value="CI">Course to Intercept</option>
+                <option value="CR">Course to Radial termination</option>
+                <option value="RF">Constant Radius Arc</option>
+                <option value="AF">Arc to Fix</option>
+                <option value="VA">Heading to Altitude</option>
+                <option value="VD">Heading to DME Distance termination</option>
+                <option value="VI">Heading to Intercept</option>
+                <option value="VM">Heading to Manual termination</option>
+                <option value="VR">Heading to Radial termination</option>
+                <option value="PI">045/180 Procedure turn</option>
+                <option value="HA">Holding in lieu of Procedure Turn</option>
+                <option value="HF">Holding in lieu of Procedure Turn</option>
+                <option value="HM">Holding in lieu of Procedure Turn</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <select [ngModel]="state.selectedLeg.waypoint_description.col1" name="waypoint_description_1" class="form-control form-control-sm">
+                <option value=" "></option>
+                <option value="A">Airport as Waypoint</option>
+                <option value="E">Essential Waypoint</option>
+                <option value="F">Off Airway Waypoint</option>
+                <option value="G">Runway as Waypoint</option>
+                <option value="H">Heliport as Waypoint</option>
+                <option value="N">NDB navaid as Waypoint</option>
+                <option value="P">Phantom Waypoint</option>
+                <option value="R">Non-Essential Waypoint</option>
+                <option value="T">Transition Essential Waypoint</option>
+                <option value="V">VHF Navaid as Waypoint</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <select [ngModel]="state.selectedLeg.waypoint_description.col2" name="waypoint_description_2" class="form-control form-control-sm">
+                <option value=" "></option>
+                <option value="B">end of SID/STAR/IAP route Type</option>
+                <option value="E">end of enroute Airway or terminal procedure</option>
+                <option value="U">uncharted airway intersection</option>
+                <option value="Y">Fly-Over Waypoint</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <select [ngModel]="state.selectedLeg.waypoint_description.col3" name="waypoint_description_3" class="form-control form-control-sm">
+                <option value=" "></option>
+                <option value="A">unnamed Stepdown Fix After final Approach Fix</option>
+                <option value="B">unnamed Stepdown Fix before Final Approach Fix</option>
+                <option value="C">ATC Compulsory Waypoint</option>
+                <option value="G">Oceanic Gateway Waypoint</option>
+                <option value="M">First leg of Missed Approach Procedure</option>
+                <option value="P">Path Point Fix</option>
+                <option value="S">Named Stepdown Fix</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <select [ngModel]="state.selectedLeg.waypoint_description.col4" name="waypoint_description_4" class="form-control form-control-sm">
+                <option value=" "></option>
+                <option value="A">Initial Approach Fix</option>
+                <option value="B">Intermediate Approach Fix</option>
+                <option value="C">Initial Approach Fix with Holding</option>
+                <option value="D">Initial Approach with Final Approach Course Fix</option>
+                <option value="E">Final End Point Fix</option>
+                <option value="F">Published Final Approach Fix or Database Final Approach Fix</option>
+                <option value="H">Holding Fix</option>
+                <option value="I">Final Approach Course Fix</option>
+                <option value="M">Published Missed Approach Point Fix</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="exampleFormControlInput1" class="form-label">
+                <abbr title="Turn Direction">Turn dir.</abbr>
+            </label>
+            <select [ngModel]="state.selectedLeg.turn_direction" name="turn_direction" class="form-control form-control-sm">
+                <option value=""></option>
+                <option value="L">Left</option>
+                <option value="R">Right</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="turn_direction_valid" class="form-label">
+                <abbr title="Turn Direction Valid">TDV</abbr>
+            </label>
+            <select [ngModel]="state.selectedLeg.turn_direction_valid" name="turn_direction_valid" class="form-control form-control-sm">
+                <option value=""></option>
+                <option value="Y">yes</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="rnp" class="form-label">
+                <abbr title="Required navigation performance">RNP</abbr>
+            </label>
+            <input [ngModel]="state.selectedLeg.rnp" name="rnp" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="col-3">
+            <label for="recommended_navaid" class="form-label">
+                <abbr title="Recommended Fix/Navaid">Fix</abbr>
+            </label>
+            <input [ngModel]="state.selectedLeg.recommended_navaid.identifier" name="recommended_navaid" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="col-3">
+            <label for="center_waypoint" class="form-label">
+                <abbr title="Center Waypoint">Center Wpt</abbr>
+            </label>
+            <input [ngModel]="state.selectedLeg.center_waypoint.identifier" name="center_waypoint" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="col-2">
+            <label for="theta" class="form-label">
+                <abbr title="Magnetic Course from Recommended Fix/Navaid to Waypoint Identifier">Theta</abbr>
+            </label>
+            <div class="input-group input-group-sm">
+                <input [ngModel]="state.selectedLeg.theta" name="theta" type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">°</span>
+            </div>
+        </div>
+        <div class="col-2">
+            <label for="rho" class="form-label">
+                <abbr title="Distance from Recommended Fix/Navaid to Waypoint Identifier">Rho</abbr>
+            </label>
+            <div class="input-group input-group-sm">
+                <input [ngModel]="state.selectedLeg.rho" name="rho" type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">
+                    <abbr title="Nautical miles">nm</abbr>
+                </span>
+            </div>
+        </div>
+        <div class="col-2">
+            <label for="magnetic_course" class="form-label">
+                <abbr title="Magnetic Course">Mag Crs</abbr>
+            </label>
+            <div class="input-group input-group-sm">
+                <input [ngModel]="state.selectedLeg.magnetic_course" name="magnetic_course" type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">°</span>
+            </div>
+        </div>
+        <div class="col-3">
+            <label for="route_distance_holding_distance_time" class="form-label">
+                <abbr title="Route Distance/Holding Distance or Time">Dist/Time</abbr>
+            </label>
+            <input [ngModel]="state.selectedLeg.route_distance_holding_distance_time" name="route_distance_holding_distance_time" type="text" class="form-control form-control-sm">
+        </div>
+        <div class="col-3">
+            <label for="arc_radius" class="form-label">Arc radius</label>
+            <div class="input-group input-group-sm">
+                <input [ngModel]="state.selectedLeg.arc_radius" name="arc_radius" type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">
+                    <abbr title="Nautical miles">nm</abbr>
+                </span>
+            </div>
         </div>
     </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Distance from Recommended Fix/Navaid to Waypoint Identifier">Rho</abbr>
-        </label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">
-                <abbr title="Nautical miles">nm</abbr>
-            </span>
+
+    <h5 class="mb-2 mt-4">Altitude Restriction</h5>
+    <div class="row">
+        <div class="col-1">
+            <label for="exampleFormControlInput1" class="form-label">Active</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [checked]="state.selectedLeg.altitude_restriction !== null">
+            </div>
+        </div>
+        <div class="col-6" *ngIf="state.selectedLeg.altitude_restriction !== null">
+            <label for="altitude_restriction_type" class="form-label">Type</label>
+            <select [ngModel]="state.selectedLeg.altitude_restriction.type" name="altitude_restriction_type" class="form-control form-control-sm">
+                <option value=" ">at altitude specified in Altitude1 field</option>
+                <option value="+">at or above altitude specified in Altitude1 field</option>
+                <option value="-">at or below altitude specified in Altitude1 field</option>
+                <option value="B">at or above to at or below altitudes in Altitude1 field and Altitude2 field</option>
+                <option value="G">Glide Slope altitude (MSL) specified in Altitude2 field and at altitude specified in Altitude1 field</option>
+                <option value="H">Glide Slope altitude (MSL) specified in Altitude2 field and at or above altitude specified in Altitude1 field</option>
+                <option value="I">Glide Slope Intercept Altitude specified in Altitude2 field and at altitude specified in Altitude1 field</option>
+                <option value="J">Glide Slope Intercept Altitude specified in Altitude2 field and at or above altitude specified in Altitude1 field</option>
+                <option value="V">at altitude on the coded vertical angle in the Altitude2 field and at or above altitude specified in Altitude1 field</option>
+                <option value="X">at altitude on the coded vertical angle in Altitude2 field and at altitude specified in Altitude1 field</option>
+                <option value="Y">at altitude on the coded vertical angle in Altitude2 field and at or below altitude specified in the Altitude1 field</option>
+            </select>
+        </div>
+        <div class="col" *ngIf="state.selectedLeg.altitude_restriction !== null">
+            <label for="altitude_restriction_altitude_1" class="form-label">Altitude 1</label>
+            <div class="input-group input-group-sm">
+                <input [ngModel]="state.selectedLeg.altitude_restriction.altitude_1.value" name="altitude_restriction_altitude_1" type="text" class="form-control form-control-sm" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">ft</span>
+            </div>
+        </div>
+        <div class="col" *ngIf="state.selectedLeg.altitude_restriction !== null">
+            <label for="exampleFormControlInput1" class="form-label">Altitude 2</label>
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">ft</span>
+            </div>
         </div>
     </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Magnetic Course">Mag Crs</abbr>
-        </label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">°</span>
+
+    <h5 class="mb-2 mt-4">Speed Restriction</h5>
+    <div class="row">
+        <div class="col-1">
+            <label for="exampleFormControlInput1" class="form-label">Active</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [checked]="state.selectedLeg.speed_restiction !== null">
+            </div>
+        </div>
+        <div class="col" *ngIf="state.selectedLeg.speed_restiction !== null">
+            <label for="speed_restiction_type" class="form-label">Speed Description</label>
+            <select [ngModel]="state.selectedLeg.speed_restiction.type" name="speed_restiction_type" class="form-control form-control-sm">
+                <option value="">at Speed</option>
+                <option value="+">at or above Speed</option>
+                <option value="-">at or below Speed</option>
+            </select>
+        </div>
+        <div class="col" *ngIf="state.selectedLeg.speed_restiction !== null">
+            <label for="speed_restiction_value" class="form-label">Speed limit</label>
+            <div class="input-group input-group-sm">
+                <input [ngModel]="state.selectedLeg.speed_restiction.speed" name="speed_restiction_value" type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">kts</span>
+            </div>
         </div>
     </div>
-    <div class="col-3">
-        <label for="exampleFormControlInput1" class="form-label">
-            <abbr title="Route Distance/Holding Distance or Time">Dist/Time</abbr>
-        </label>
-        <input type="text" class="form-control form-control-sm">
-    </div>
-    <div class="col-3">
-        <label for="exampleFormControlInput1" class="form-label">Arc radius</label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">
-                <abbr title="Nautical miles">nm</abbr>
-            </span>
+    <div class="row">
+        <div class="col-2">
+            <label for="exampleFormControlInput1" class="form-label">Vert Angle</label>
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">°</span>
+            </div>
         </div>
-    </div>
-    <div class="col-6">
-        <label for="exampleFormControlInput1" class="form-label">Altitude Description</label>
-        <select class="form-control form-control-sm">
-            <option value=" ">at altitude specified in Altitude1 field</option>
-            <option value="+">at or above altitude specified in Altitude1 field</option>
-            <option value="-">at or below altitude specified in Altitude1 field</option>
-            <option value="B">at or above to at or below altitudes in Altitude1 field and Altitude2 field</option>
-            <option value="G">Glide Slope altitude (MSL) specified in Altitude2 field and at altitude specified in Altitude1 field</option>
-            <option value="H">Glide Slope altitude (MSL) specified in Altitude2 field and at or above altitude specified in Altitude1 field</option>
-            <option value="I">Glide Slope Intercept Altitude specified in Altitude2 field and at altitude specified in Altitude1 field</option>
-            <option value="J">Glide Slope Intercept Altitude specified in Altitude2 field and at or above altitude specified in Altitude1 field</option>
-            <option value="V">at altitude on the coded vertical angle in the Altitude2 field and at or above altitude specified in Altitude1 field</option>
-            <option value="X">at altitude on the coded vertical angle in Altitude2 field and at altitude specified in Altitude1 field</option>
-            <option value="Y">at altitude on the coded vertical angle in Altitude2 field and at or below altitude specified in the Altitude1 field</option>
-        </select></div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">Altitude 1</label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control form-control-sm" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">ft</span>
+        <div class="col-4">
+            <label for="exampleFormControlInput1" class="form-label">Speed Description</label>
+            <select class="form-control form-control-sm">
+                <option value="">no limit</option>
+                <option value="+">min Speed</option>
+                <option value="-">max Speed</option>
+            </select>
         </div>
-    </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">Altitude 2</label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control form-control-sm" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">ft</span>
+        <div class="col-4">
+            <label for="exampleFormControlInput1" class="form-label">Speed limit</label>
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">kts</span>
+            </div>
         </div>
-    </div>
-    <div class="col-2">
-        <label for="exampleFormControlInput1" class="form-label">Vert Angle</label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">°</span>
-        </div>
-    </div>
-    <div class="col-4">
-        <label for="exampleFormControlInput1" class="form-label">Speed Description</label>
-        <select class="form-control form-control-sm">
-            <option value="">no limit</option>
-            <option value="+">min Speed</option>
-            <option value="-">max Speed</option>
-        </select>
-    </div>
-    <div class="col-4">
-        <label for="exampleFormControlInput1" class="form-label">Speed limit</label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">kts</span>
-        </div>
-    </div>
-    <div class="col-4">
-        <label for="exampleFormControlInput1" class="form-label">Transition Altitude</label>
-        <div class="input-group input-group-sm">
-            <input type="text" class="form-control" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2">ft</span>
+        <div class="col-4">
+            <label for="exampleFormControlInput1" class="form-label">Transition Altitude</label>
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="basic-addon2">ft</span>
+            </div>
         </div>
     </div>
 </form>
+{{state|json}}

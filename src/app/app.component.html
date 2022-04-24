@@ -1,14 +1,14 @@
 
 <div class="container">
-    <textarea name="dataInput" class="form-control" [formControl]="favoriteColorControl" id="" cols="200" rows="10"></textarea>
-    <button type="button" class="btn btn-primary" (click)="parse()">Show data</button>
-
+    <app-input></app-input>
+    
     <div class="row">
         <div class="col">
-            <app-procedure *ngFor="let procedure of procedures" [procedure]="procedure"></app-procedure>
+            <app-procedure *ngFor="let procedure of procedures|async" [procedure]="procedure"></app-procedure>
         </div>
-        <div class="col">
-            <app-leg-editor></app-leg-editor>
+        <div class="col" *ngIf="legEditor|async">
+            <app-leg-editor [state]="legEditor|async"></app-leg-editor>
+            <!--<app-leg-editor state="legEditor|async"></app-leg-editor>-->
         </div>
     </div>
 </div>
